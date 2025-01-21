@@ -9,14 +9,12 @@ describe('useAsync', () => {
     // Initially, data and error should be undefined
     expect(result.current.data).toBeUndefined();
     expect(result.current.error).toBeUndefined();
-    
 
-    // Wait for the async function to resolve
     await act(async () => {
         await new Promise(resolve => setTimeout(resolve, 0));
       });
 
-    // After execution, data should be set and error should be undefined
+
     expect(result.current.data).toBe('Success!');
     expect(result.current.error).toBeUndefined();
     expect(asyncFunction).toHaveBeenCalled();
@@ -25,17 +23,16 @@ describe('useAsync', () => {
   it('should execute async function and set error on failure', async () => {
     const asyncFunction = jest.fn(() => Promise.reject(new Error('Error!')));
     const { result } = renderHook(() => useAsync(asyncFunction, []));
-    
+
     // Initially, data and error should be undefined
     expect(result.current.data).toBeUndefined();
     expect(result.current.error).toBeUndefined();
 
-    // Wait for the async function to reject
     await act(async () => {
         await new Promise(resolve => setTimeout(resolve, 0));
       });
 
-    // After execution, error should be set and data should be undefined
+
     expect(result.current.data).toBeUndefined();
     expect(result.current.error).toEqual(new Error('Error!'));
     expect(asyncFunction).toHaveBeenCalled();
@@ -49,7 +46,6 @@ describe('useAsync', () => {
       { initialProps: { dependency } }
     );
 
-    // Wait for initial execution
     await act(async () => {
         await new Promise(resolve => setTimeout(resolve, 0));
       });
@@ -60,7 +56,6 @@ describe('useAsync', () => {
     dependency = 2;
     rerender({ dependency });
 
-    // Wait for re-execution
     await act(async () => {
         await new Promise(resolve => setTimeout(resolve, 0));
       });

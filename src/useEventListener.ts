@@ -1,65 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 
-/**
- * This hook makes it easy to detect when the user is pressing
- * a specific key on their keyboard. The recipe is fairly simple,
- * as I want to show how little code is required, but I challenge
- * any readers to create a more advanced version of this hook.
- * Detecting when multiple keys are held down at the same time
- * would be a nice addition. Bonus points: also require they be
- * held down in a specified order. Feel free to share anything you've
- * created in this recipe's gist. (https://gist.github.com/gragland/b61b8f46114edbcf2a9e4bd5eb9f47f5)
+// Define a generic type for the event handler function
+type EventHandler<T extends Event> = (event: T) => void;
 
- // Usage
-function App() {
-  // Call our hook for each key that we'd like to monitor
-  const happyPress = useKeyPress('h');
-  const sadPress = useKeyPress('s');
-  const robotPress = useKeyPress('r');
-  const foxPress = useKeyPress('f');
-  return (
-    <div>
-      <div>h, s, r, f</div>
-      <div>
-        {happyPress && '😊'}
-        {sadPress && '😢'}
-        {robotPress && '🤖'}
-        {foxPress && '🦊'}
-      </div>
-    </div>
-  );
-}
- */
+// Define a generic type for valid event targets
+type ValidEventTarget = Window | Document | HTMLElement | EventTarget;
 
-// Hook
-export default function useKeyPress(targetKey: any){
-  // State for keeping track of whether key is pressed
-  const [keyPressed, setKeyPressed] = useState(false);
+// Overloads for improved type inference
+export function useEventListener<K extends keyof WindowEventMap>(
+  eventName: K,
+  handler: (event: WindowEventMap[K]) => void,
+  element?: Window
+): void;
 
-  // If pressed key is our target key then set to true
-  function downHandler({ key }: KeyboardEvent) {
-    if (key === targetKey) {
-      setKeyPressed(true);
-    }
-  }
+export function useEventListener<K extends keyof HTMLElementEventMap>(
+  eventName: K,
+  handler: (event: HTMLElementEventMap[K]) => void,
+  element: HTMLElement
+): void;
 
-  // If released key is our target key then set to false
-  const upHandler = ({ key }: KeyboardEvent) => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  };
+export function useEventListener<K extends keyof DocumentEventMap>(
+  eventName: K,
+  handler: (event: DocumentEventMap[K]) => void,
+  element: Document
+): void;
 
-  // Add event listeners
+export function useEventListener<T extends Event>(
+  eventName: string,
+  handler: (event: T) => void,
+  element?: ValidEventTarget
+): void;
+
+// Implementation
+export function useEventListener(
+  eventName: string,
+  handler: EventHandler<any>,
+  element: ValidEventTarget | undefined = window
+) {
+  // Create a ref that stores the handler
+  const savedHandler = useRef<EventHandler<any>>(null);
+
   useEffect(() => {
-    window.addEventListener('keydown', downHandler);
-    window.addEventListener('keyup', upHandler);
-    // Remove event listeners on cleanup
-    return () => {
-      window.removeEventListener('keydown', downHandler);
-      window.removeEventListener('keyup', upHandler);
-    };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+    savedHandler.current = handler;
+  }, [handler]);
 
-  return keyPressed;
+  useEffect(() => {
+    const isSupported = element && element.addEventListener;
+    if (!isSupported) return;
+
+    const eventListener = (event: Event) => savedHandler.current?.(event);
+
+    element.addEventListener(eventName, eventListener);
+
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
 }

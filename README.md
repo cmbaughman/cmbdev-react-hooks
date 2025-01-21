@@ -2,9 +2,7 @@
 
 A collection of cool and useful React hooks from various sources, or created by me.
 
-NOTE: Development is still ongoing, but this will be released to NPM soon ;)
-
-## Installation
+## Installation (NOT ON NPM JUST YET)
 
 ```bash
 npm install cool-react-hooks

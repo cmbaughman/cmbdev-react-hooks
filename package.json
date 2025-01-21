@@ -1,0 +1,38 @@
+{
+  "name": "cool-react-hooks",
+  "version": "1.0.0",
+  "description": "A collection of cool hooks from various sources, or by me.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmbaughman/cool-react-hooks.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "various",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cmbaughman/cool-react-hooks/issues"
+  },
+  "homepage": "https://github.com/cmbaughman/cool-react-hooks#readme",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.7",
+    "@types/testing-library__react-hooks": "^3.4.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "react-dom": "^19.0.0",
+    "react-test-renderer": "^19.0.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  }
+}

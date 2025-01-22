@@ -1,7 +1,7 @@
 name: Release
 on:
   workflow_run:
-    workflows: ['cmbutil Security Check', 'Tests']
+    workflows: ['cmbdev-react-hooks Security Check', 'Tests']
     branches: [main]
     types:
       - completed

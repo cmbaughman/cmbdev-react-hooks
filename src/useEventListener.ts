@@ -1,40 +1,36 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-type EventHandler<T extends Event> = (event: T) => void;
+type EventHandler<T extends Element, U extends Event> = (event: U) => void;
 type ValidEventTarget = Window | Document | HTMLElement | EventTarget;
 
 export function useEventListener<K extends keyof WindowEventMap>(
   eventName: K,
   handler: (event: WindowEventMap[K]) => void,
-  element?: Window
+  element?: Window | null
 ): void;
-
 export function useEventListener<K extends keyof HTMLElementEventMap>(
   eventName: K,
   handler: (event: HTMLElementEventMap[K]) => void,
-  element: HTMLElement
+  element: HTMLElement | null
 ): void;
-
 export function useEventListener<K extends keyof DocumentEventMap>(
   eventName: K,
   handler: (event: DocumentEventMap[K]) => void,
-  element: Document
+  element: Document | null
 ): void;
-
 export function useEventListener<T extends Event>(
   eventName: string,
   handler: (event: T) => void,
-  element?: ValidEventTarget
+  element?: ValidEventTarget | null
 ): void;
 
-// Main Implementation
-export default function useEventListener(
+// Implementation
+export function useEventListener<T extends HTMLElement = HTMLElement, U extends Event = Event>(
   eventName: string,
-  handler: EventHandler<any>,
-  element: ValidEventTarget | undefined = window
-) {
-
-  const savedHandler = useRef<EventHandler<any>>(null);
+  handler: EventHandler<T, U>,
+  element: ValidEventTarget | null = window
+): void {
+  const savedHandler = useRef<EventHandler<T, U> | null>(null);
 
   useEffect(() => {
     savedHandler.current = handler;
@@ -42,9 +38,10 @@ export default function useEventListener(
 
   useEffect(() => {
     const isSupported = element && element.addEventListener;
+
     if (!isSupported) return;
 
-    const eventListener = (event: Event) => savedHandler.current?.(event);
+    const eventListener = (event: Event) => savedHandler.current?.(event as U);
 
     element.addEventListener(eventName, eventListener);
 
@@ -53,3 +50,5 @@ export default function useEventListener(
     };
   }, [eventName, element]);
 }
+
+export default useEventListener;

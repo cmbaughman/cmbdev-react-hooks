@@ -44,7 +44,7 @@ describe('useEventListener', () => {
         const handler2 = jest.fn();
         const element = document.createElement('div');
         const { rerender } = renderHook(
-            (handler) => useEventListener('click', handler, element),
+            (handler: (event: Event) => void) => useEventListener('click', handler, element),
             { initialProps: handler1 }
         );
 
@@ -81,7 +81,7 @@ describe('useEventListener', () => {
         const handler = jest.fn();
         const element = document.createElement('div');
         const { rerender } = renderHook(
-            ({ eventName }) => useEventListener(eventName, handler, element),
+            ({ eventName }: { eventName: string }) => useEventListener(eventName, handler, element),
             { initialProps: { eventName: 'click' } }
         );
 

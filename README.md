@@ -1,15 +1,19 @@
 # Cool React Hooks
 
+[![npm (scoped)](https://img.shields.io/npm/v/cmbdev-react-hooks)](https://www.npmjs.com/package/cmbdev-react-hooks)
+[![GitHub issues](https://img.shields.io/github/issues/cmbaughman/cmbdev-react-hooks)](https://github.com/cmbaughman/cmbdev-react-hooks/issues)
+[![GitHub license](https://img.shields.io/github/license/cmbaughman/cmbdev-react-hooks)](https://github.com/cmbaughman/cmbdev-react-hooks/blob/main/LICENSE)
+
 A collection of cool and useful React hooks from various sources and some rewritten by me.
 
 ```bash
-npm install cool-react-hooks
+npm install cmbdev-react-hooks
 ```
 
 or
 
 ```
-yarn add cool-react-hooks
+yarn add cmbdev-react-hooks
 ```
 
 ## Hooks
@@ -23,7 +27,7 @@ Rather than litter your components with a bunch of useState calls to keep track 
 #### Usage
 
 ```javascript
-import { useAsync } from 'cool-react-hooks';
+import { useAsync } from 'cmbdev-react-hooks';
 
 function App() {
   const { execute, status, value, error } = useAsync(myFunction, []);
@@ -59,7 +63,7 @@ Detects clicks outside of a specified element. Useful for closing modals, dropdo
 #### Usage
 
 ```javascript
-import { useClickOutside } from 'cool-react-hooks';
+import { useClickOutside } from 'cmbdev-react-hooks';
 
 function MyCoolComponent() {
   const wrapperRef = useClickOutside(() => {
@@ -78,7 +82,7 @@ Delays invoking a function until after a specified number of milliseconds have e
 #### Usage
 
 ```javascript
-import { useDebounce } from 'cool-react-hooks';
+import { useDebounce } from 'cmbdev-react-hooks';
 
 function MyComponent() {
   const [value, setValue] = useState('');
@@ -106,7 +110,7 @@ A declarative way to add event listeners to DOM elements.
 #### Usage
 
 ```javascript
-import { useEventListener } from 'cool-react-hooks';
+import { useEventListener } from 'cmbdev-react-hooks';
 
 function MyComponent() {
   const handler = useCallback((event) => {
@@ -130,7 +134,7 @@ Fetches data from an API and returns the data, loading state, and any errors.
 #### Usage
 
 ```javascript
-import { useFetch } from 'cool-react-hooks';
+import { useFetch } from 'cmbdev-react-hooks';
 
 function MyCoolComponent() {
   const { data, loading, error } = useFetch<{ message: string }>('[https://api.example.com/data](https://api.example.com/data)');
@@ -149,7 +153,7 @@ Detects when the mouse is hovering over an element.
 #### Usage
 
 ```javascript
-import { useHover } from 'cool-react-hooks';
+import { useHover } from 'cmbdev-react-hooks';
 
 function MyComponent() {
   const [hoverRef, isHovered] = useHover<HTMLDivElement>();
@@ -169,7 +173,7 @@ Detects when a specific key is pressed.
 #### Usage
 
 ```javascript
-import { useKeyPress } from 'cool-react-hooks';
+import { useKeyPress } from 'cmbdev-react-hooks';
 
 function App() {
   const happyPress = useKeyPress('h');
@@ -198,7 +202,7 @@ Manages a value in local storage.
 #### Usage
 
 ```javascript
-import { useLocalStorage } from 'cool-react-hooks';
+import { useLocalStorage } from 'cmbdev-react-hooks';
 
 function MyComponent() {
   const [name, setName] = useLocalStorage('name', 'Bob');
@@ -222,7 +226,7 @@ Detects if the window matches a given media query.
 #### Usage
 
 ```javascript
-import { useMediaQuery } from 'cool-react-hooks';
+import { useMediaQuery } from 'cmbdev-react-hooks';
 
 function MyComponent() {
   const isSmallScreen = useMediaQuery('(max-width: 600px)');

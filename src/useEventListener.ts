@@ -1,12 +1,8 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-// Define a generic type for the event handler function
 type EventHandler<T extends Event> = (event: T) => void;
-
-// Define a generic type for valid event targets
 type ValidEventTarget = Window | Document | HTMLElement | EventTarget;
 
-// Overloads for improved type inference
 export function useEventListener<K extends keyof WindowEventMap>(
   eventName: K,
   handler: (event: WindowEventMap[K]) => void,
@@ -31,13 +27,13 @@ export function useEventListener<T extends Event>(
   element?: ValidEventTarget
 ): void;
 
-// Implementation
-export function useEventListener(
+// Main Implementation
+export default function useEventListener(
   eventName: string,
   handler: EventHandler<any>,
   element: ValidEventTarget | undefined = window
 ) {
-  // Create a ref that stores the handler
+
   const savedHandler = useRef<EventHandler<any>>(null);
 
   useEffect(() => {
